@@ -11,9 +11,7 @@ class BlocDi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(providers: [
-      BlocProvider(
-        create: (context) => AuthBloc(signUpUseCase: sl()),
-      ),
+      BlocProvider(create: (context) => sl<AuthBloc>()),
     ], child: child);
   }
 }

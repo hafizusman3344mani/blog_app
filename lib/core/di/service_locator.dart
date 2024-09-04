@@ -6,6 +6,7 @@ import 'package:blog_app/features/auth/domain/usecases/user_sign_up_usecase.dart
 import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../features/auth/presentation/cubit/auth_bloc.dart';
 import '../constants/app_secrets.dart';
 
 final sl = GetIt.instance;
@@ -23,4 +24,5 @@ Future<void> initDependencies() async {
       () => AuthRepositoryImpl(remoteDataSource: sl()));
 
   sl.registerFactory(() => UserSignUpUseCase(authRepository: sl()));
+  sl.registerLazySingleton(() => AuthBloc(signUpUseCase: sl()));
 }

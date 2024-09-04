@@ -1,5 +1,6 @@
 import 'package:blog_app/core/di/bloc_di.dart';
 import 'package:blog_app/core/di/service_locator.dart';
+import 'package:blog_app/core/utils/unfocus.dart';
 import 'package:flutter/material.dart';
 
 import 'core/config/theme/app_theme.dart';
@@ -22,6 +23,10 @@ class BlogApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Blog App',
         debugShowCheckedModeBanner: false,
+        builder: (BuildContext context, Widget? child) {
+          child = UnFocus(child: child!);
+          return child;
+        },
         theme: AppTheme.darkThemeMode,
         home: const SignUpPage(),
       ),

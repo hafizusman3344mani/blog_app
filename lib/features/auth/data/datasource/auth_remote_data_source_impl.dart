@@ -25,6 +25,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw ServerException(message: 'User not found');
       }
       return authResponse.user!.id;
+    } on AuthException catch (e) {
+      throw ServerException(
+        message: e.message,
+        statusCode: e.statusCode,
+        errorCode: e.code,
+      );
     } catch (e) {
       throw ServerException(message: e.toString());
     }

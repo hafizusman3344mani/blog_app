@@ -12,8 +12,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       : _signUpUseCase = signUpUseCase,
         super(AuthInitial()) {
     on<AuthSignUpEvent>((event, emit) async {
-      print('Clicked');
-
+      emit(AuthLoading());
       final res = await _signUpUseCase(
         UserSignUpParams(
           name: event.name,
@@ -21,11 +20,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           password: event.password,
         ),
       );
-      res.fold((left) {
-        print("Left is ${left.message}");
-      }, (right) {
-        print("Right is $right");
-      });
+
       res.fold((left) => emit(AuthError(message: left.message)),
           (right) => emit(AuthSuccess(userId: right)));
     });
