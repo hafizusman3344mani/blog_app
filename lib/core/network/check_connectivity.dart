@@ -14,6 +14,7 @@ class CheckConnectivityImpl implements CheckConnectivity {
 
   Future<bool> _getConnectivityStatus() async {
     var result = await _connectivity.checkConnectivity();
+
     if (result.contains(ConnectivityResult.mobile) ||
         result.contains(ConnectivityResult.wifi) ||
         result.contains(ConnectivityResult.ethernet)) {

@@ -9,14 +9,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   AuthRemoteDataSourceImpl({required SupabaseClient client}) : _client = client;
 
+  //TODO: Working on internet connectivity
   @override
-  Session? get currentUserSession {
-    try {
-      return _client.auth.currentSession;
-    } catch (e) {
-      throw ServerException(message: e.toString());
-    }
-  }
+  Session? get currentUserSession => _client.auth.currentSession;
 
   @override
   Future<UserModel> loginUpWithEmailAndPassword(
