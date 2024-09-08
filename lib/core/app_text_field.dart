@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
-class AuthField extends StatelessWidget {
+class AppTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final bool isObscureText;
-  const AuthField(
+  final int? maxLines;
+  const AppTextField(
       {super.key,
       required this.controller,
       required this.hintText,
+      this.maxLines,
       this.isObscureText = false});
 
   @override
@@ -21,6 +23,7 @@ class AuthField extends StatelessWidget {
         }
         return null;
       },
+      maxLines: maxLines,
       decoration: InputDecoration(
         hintText: hintText,
       ),

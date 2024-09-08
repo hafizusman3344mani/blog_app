@@ -12,16 +12,20 @@ class AppTheme {
       );
 
   static final darkThemeMode = ThemeData.dark().copyWith(
-      scaffoldBackgroundColor: AppPallete.backgroundColor,
-      inputDecorationTheme: InputDecorationTheme(
-        contentPadding: const EdgeInsets.all(AppConsts.authFieldContentPadding),
-        border: _border(),
-        enabledBorder: _border(),
-        disabledBorder: _border(),
-        focusedErrorBorder: _border(),
-        focusedBorder: _border(color: AppPallete.gradient2),
-      ),
-      appBarTheme: AppBarTheme(
-          backgroundColor: AppPallete.backgroundColor,
-          iconTheme: IconThemeData(color: AppPallete.whiteColor)));
+    scaffoldBackgroundColor: AppPallete.backgroundColor,
+    inputDecorationTheme: InputDecorationTheme(
+      contentPadding: const EdgeInsets.all(AppConsts.authFieldContentPadding),
+      border: _border(),
+      enabledBorder: _border(),
+      disabledBorder: _border(),
+      focusedErrorBorder: _border(),
+      focusedBorder: _border(color: AppPallete.gradient2),
+    ),
+    appBarTheme: const AppBarTheme(
+        backgroundColor: AppPallete.backgroundColor,
+        iconTheme: IconThemeData(color: AppPallete.whiteColor)),
+    chipTheme: ChipThemeData(
+        color: WidgetStateProperty.all(AppPallete.backgroundColor),
+        side: BorderSide.none),
+  );
 }

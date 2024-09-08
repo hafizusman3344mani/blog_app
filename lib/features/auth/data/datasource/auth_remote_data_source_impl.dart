@@ -8,6 +8,16 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final SupabaseClient _client;
 
   AuthRemoteDataSourceImpl({required SupabaseClient client}) : _client = client;
+
+  @override
+  Session? get currentUserSession {
+    try {
+      return _client.auth.currentSession;
+    } catch (e) {
+      throw ServerException(message: e.toString());
+    }
+  }
+
   @override
   Future<UserModel> loginUpWithEmailAndPassword(
       {required String email, required String password}) async {
@@ -17,15 +27,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (authResponse.user == null) {
         throw ServerException(message: 'User not found');
       }
-      print(authResponse.user!.toJson());
       return UserModel.fromJson(authResponse.user!.toJson());
-    } on AuthException catch (e) {
-      throw ServerException(
-        message: e.message,
-        statusCode: e.statusCode,
-        errorCode: e.code,
-      );
     } catch (e) {
+      print('Exception type is ${e.runtimeType}');
       throw ServerException(message: e.toString());
     }
   }
@@ -42,12 +46,36 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw ServerException(message: 'User not found');
       }
       return UserModel.fromJson(authResponse.user!.toJson());
-    } on AuthException catch (e) {
-      throw ServerException(
-        message: e.message,
-        statusCode: e.statusCode,
-        errorCode: e.code,
-      );
+    } catch (e) {
+      print('Exception type is ${e.runtimeType}');
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<UserModel?> getCurrentUser() async {
+    try {
+      if (currentUserSession != null) {
+        var userData = await _client
+            .from('profiles')
+            .select()
+            .eq('id', currentUserSession!.user.id);
+        return UserModel.fromJson(userData.first).copyWith(
+          email: currentUserSession!.user.email,
+        );
+      }
+      return null;
+    } catch (e) {
+      print('Exception type is ${e.runtimeType}');
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<bool> logOutUser() async {
+    try {
+      await _client.auth.signOut();
+      return true;
     } catch (e) {
       throw ServerException(message: e.toString());
     }

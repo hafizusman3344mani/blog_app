@@ -45,5 +45,15 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+
+
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>$(EXECUTABLE_NAME) wants to access Photo Library</string>
+    <key>NSCameraUsageDescription</key>
+    <string>$(EXECUTABLE_NAME) wants to access Camera</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>$(EXECUTABLE_NAME) wants to access microphone</string>
+
+
 </dict>
 </plist>

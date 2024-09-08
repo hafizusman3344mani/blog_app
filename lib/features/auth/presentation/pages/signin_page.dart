@@ -1,3 +1,4 @@
+import 'package:blog_app/core/app_text_field.dart';
 import 'package:blog_app/core/config/routes/nav_router.dart';
 import 'package:blog_app/core/constants/app_pallete.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/di/service_locator.dart';
 import '../cubit/auth_bloc.dart';
-import '../widget/auth_field.dart';
 import '../widget/auth_gradient_button.dart';
 
 class SignInPage extends StatefulWidget {
@@ -73,17 +73,19 @@ class _SignInPageState extends State<SignInPage> {
                     const SizedBox(
                       height: 16,
                     ),
-                    AuthField(
+                    AppTextField(
                       controller: _emailController,
                       hintText: 'Email',
+                      maxLines: 1,
                     ),
                     const SizedBox(
                       height: 16,
                     ),
-                    AuthField(
+                    AppTextField(
                       controller: _passwordController,
                       hintText: 'Password',
                       isObscureText: true,
+                      maxLines: 1,
                     ),
                     const SizedBox(
                       height: 30,
