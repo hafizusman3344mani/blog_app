@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 
 abstract interface class CheckConnectivity {
   Future<bool> get isConnected;
+  Stream<List<ConnectivityResult>> get onConnectivityChanged;
 }
 
 class CheckConnectivityImpl implements CheckConnectivity {
@@ -22,4 +23,8 @@ class CheckConnectivityImpl implements CheckConnectivity {
     }
     return false;
   }
+
+  @override
+  Stream<List<ConnectivityResult>> get onConnectivityChanged =>
+      _connectivity.onConnectivityChanged;
 }

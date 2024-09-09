@@ -19,50 +19,64 @@ class BlogCardWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(16),
         height: 200,
         decoration: BoxDecoration(
-            color: color, borderRadius: BorderRadius.circular(10)),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: List.generate(
-                      blog.topics.length,
-                      (index) => ChipWidget(
-                        onTap: () {},
-                        vPadding: 0,
-                        title: blog.topics[index],
-                        isSelected: false,
+          borderRadius: BorderRadius.circular(10),
+          image: DecorationImage(
+            image: NetworkImage(
+              blog.imageUrl,
+            ),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          height: 200,
+          decoration: BoxDecoration(
+            color: color.withOpacity(.8),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: List.generate(
+                        blog.topics.length,
+                        (index) => ChipWidget(
+                          onTap: () {},
+                          vPadding: 0,
+                          title: blog.topics[index],
+                          isSelected: false,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Text(
-                  blog.title,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
+                  Text(
+                    blog.title,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                Text(
-                  blog.content,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 16,
+                  Text(
+                    blog.content,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            Text('${calculateReadingTime(blog.content)} min'),
-          ],
+                ],
+              ),
+              Text('${calculateReadingTime(blog.content)} min'),
+            ],
+          ),
         ),
       ),
     );

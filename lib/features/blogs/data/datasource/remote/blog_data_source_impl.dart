@@ -4,7 +4,7 @@ import 'package:blog_app/core/exceptions/exceptions.dart';
 import 'package:blog_app/features/blogs/data/models/blog_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'blog_data_source.dart';
+import '../remote/blog_data_source.dart';
 
 class BlogDataSourceImpl implements BlogDataSource {
   final SupabaseClient _client;

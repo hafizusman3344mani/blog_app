@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:blog_app/core/exceptions/exceptions.dart';
 import 'package:blog_app/core/exceptions/failure.dart';
 import 'package:blog_app/core/network/check_connectivity.dart';
+import 'package:blog_app/features/auth/data/models/user_model.dart';
 import 'package:blog_app/features/auth/domain/entities/user_entity.dart';
 import 'package:blog_app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../datasource/auth_remote_data_source.dart';
 
@@ -40,17 +40,7 @@ class AuthRepositoryImpl implements AuthRepository {
       }
       final user = await fn();
       return right(user);
-    } on AuthRetryableFetchException catch (e) {
-      return left(Failure(e.message));
-    } on SocketException catch (e) {
-      return left(Failure(e.message));
-    } on AuthException catch (e) {
-      throw ServerException(
-        message: e.message,
-        statusCode: e.statusCode,
-        errorCode: e.code,
-      );
-    } on ServerException catch (e) {
+    }  on ServerException catch (e) {
       return left(Failure(e.message));
     }
   }
@@ -59,19 +49,23 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, UserEntity>> currentUser() async {
     try {
       if (!(await checkConnectivity.isConnected)) {
-        return left(Failure('No internet connected'));
+        final session = remoteDataSource.currentUserSession;
+        if (session == null) {
+          return left(Failure('User not logged in.'));
+        } else {
+          print("User session is :::::::: ${session.user.toJson()}");
+          return right(UserModel(
+              id: session.user.id,
+              email: session.user.email ?? '',
+              name: session.user.userMetadata?['name'] ?? ''));
+        }
       }
       final user = await remoteDataSource.getCurrentUser();
       if (user == null) {
         return left(Failure('User not logged in.'));
       }
+
       return right(user);
-    } on AuthRetryableFetchException catch (e) {
-      return left(Failure(e.message));
-    } on SocketException catch (e) {
-      return left(Failure(e.message));
-    } on AuthException catch (e) {
-      return left(Failure(e.message));
     } on ServerException catch (e) {
       return left(Failure(e.message));
     }
@@ -86,13 +80,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final result = await remoteDataSource.logOutUser();
 
       return right(result);
-    } on AuthRetryableFetchException catch (e) {
-      return left(Failure(e.message));
-    } on SocketException catch (e) {
-      return left(Failure(e.message));
-    } on AuthException catch (e) {
-      return left(Failure(e.message));
-    } on ServerException catch (e) {
+    }  on ServerException catch (e) {
       return left(Failure(e.message));
     }
   }

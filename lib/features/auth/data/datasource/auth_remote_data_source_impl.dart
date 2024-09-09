@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:blog_app/core/exceptions/exceptions.dart';
 import 'package:blog_app/features/auth/data/datasource/auth_remote_data_source.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../../core/exceptions/failure.dart';
 import '../models/user_model.dart';
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -71,7 +74,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     try {
       await _client.auth.signOut();
       return true;
-    } catch (e) {
+    } on AuthRetryableFetchException catch (e) {
+
+          throw ServerException(message: e.message);
+    } on SocketException catch (e) {
+      throw ServerException(message: e.message);
+    } on AuthException catch (e) {
+      throw ServerException(message: e.message);
+    }catch (e) {
       throw ServerException(message: e.toString());
     }
   }
