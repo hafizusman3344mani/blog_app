@@ -25,13 +25,11 @@ import '../../features/auth/presentation/cubit/auth_bloc.dart';
 import '../../features/blogs/data/datasource/remote/blog_data_source.dart';
 import '../../features/blogs/domain/repositories/blog_repository.dart';
 import '../app/presentation/cubits/app_user_cubit.dart';
-import '../constants/app_secrets.dart';
 
 final sl = GetIt.instance;
 
 Future<void> initDependencies() async {
-  Supabase supaBase = await Supabase.initialize(
-      url: AppSecrets.supaBaseUrl, anonKey: AppSecrets.supaBaseApiKey);
+  Supabase supaBase = await Supabase.initialize(url: '', anonKey: '');
   Hive.defaultDirectory = (await getApplicationDocumentsDirectory()).path;
 
   /// =================== Common =====================
