@@ -29,7 +29,7 @@ import '../app/presentation/cubits/app_user_cubit.dart';
 final sl = GetIt.instance;
 
 Future<void> initDependencies() async {
-  Supabase supaBase = await Supabase.initialize(url: '', anonKey: '');
+  Supabase supaBase = await Supabase.initialize(url: 'https://btrgjdviqhznaksyxunp.supabase.co', anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ0cmdqZHZpcWh6bmFrc3l4dW5wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjUyNTc0MTEsImV4cCI6MjA0MDgzMzQxMX0.wxPwSPt3s3YPdU6LFJX7BMYaHFYYLdRMOHWkc52qVj0');
   Hive.defaultDirectory = (await getApplicationDocumentsDirectory()).path;
 
   /// =================== Common =====================

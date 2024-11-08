@@ -1,6 +1,7 @@
 import 'package:blog_app/core/app_text_field.dart';
 import 'package:blog_app/core/config/routes/nav_router.dart';
 import 'package:blog_app/core/constants/app_pallete.dart';
+import 'package:blog_app/features/auth/presentation/pages/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -114,7 +115,7 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        NavRouter.pop(context);
+                        NavRouter.push(context, const SignUpPage());
                       },
                       child: RichText(
                         text: TextSpan(
