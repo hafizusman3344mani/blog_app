@@ -1,10 +1,10 @@
-on:
+name: "Build & Release"
 
+on:
   push:
     branches:
       - main
 
-name: "Build & Release"
 jobs:
   build:
     name: Build & Release
@@ -14,13 +14,23 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: '23'
+          java-version: '17' # Or your desired Java version
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           architecture: x64
-
-      - run: flutter build apk --release
+      - name: Check Java Version
+        run: flutter doctor --verbose
+      - name: Update Gradle Version
+        run: |
+          JAVA_VERSION=$(flutter doctor --verbose | grep "Java version" | awk '{print $3}')
+          if [[ "$JAVA_VERSION" == "11" ]]; then
+            sed -i '' 's/distributionUrl=.*/distributionUrl=https\:\/\/services.gradle.org\/distributions\/gradle-7.4-all.zip/' android/gradle/wrapper/gradle-wrapper.properties
+          elif [[ "$JAVA_VERSION" == "17" ]]; then
+            sed -i '' 's/distributionUrl=.*/distributionUrl=https\:\/\/services.gradle.org\/distributions\/gradle-8.0-all.zip/' android/gradle/wrapper/gradle-wrapper.properties
+          fi
+      - name: Clean and Rebuild
+        run: flutter clean && flutter build apk --release --split-per-abi
       - run: |
           flutter build ios --no-codesign
           cd build/ios/iphoneos
@@ -35,11 +45,6 @@ jobs:
           artifacts: "build/app/outputs/apk/release/*,build/ios/iphoneos/app.ipa"
           tag: v1.0.${{ github.run_number }}
           token: ${{ secrets.TOKEN }}
-
-
-
-
-
 
 # push to master, main, develop
 # pull request on main master
