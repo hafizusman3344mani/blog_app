@@ -44,7 +44,9 @@ jobs:
         with:
           artifacts: "build/app/outputs/apk/release/*,build/ios/iphoneos/app.ipa"
           tag: v1.0.${{ github.run_number }}
-          token: ${{ secrets.TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }} # Use GITHUB_TOKEN if possible
+          generateReleaseNotes: false
+
 
 # push to master, main, develop
 # pull request on main master
